@@ -44,11 +44,13 @@ public class LinkedTaskList  extends TaskList {
 
     @Override
     public void add(Task task) {
-        numberOfTasks++;
-        Node lastNode = last;
-        Node newNode = new Node(task, lastNode);
-        if (last!= null) last.setNext(newNode);
-        last = newNode;
+        if (task != null) {
+            numberOfTasks++;
+            Node lastNode = last;
+            Node newNode = new Node(task, lastNode);
+            if (last != null) last.setNext(newNode);
+            last = newNode;
+        }
     }
     @Override
     public boolean remove(Task task) {
@@ -94,10 +96,10 @@ public class LinkedTaskList  extends TaskList {
 
     @Override
     public List<Task> getAll() {
-        LinkedList<Task> tks=new LinkedList<>();
+        LinkedList<Task> tasks=new LinkedList<>();
         for (Task t: this)
-            tks.add(t);
-        return tks;
+            tasks.add(t);
+        return tasks;
     }
 
     @Override

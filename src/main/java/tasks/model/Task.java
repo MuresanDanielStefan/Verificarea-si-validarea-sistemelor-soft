@@ -1,7 +1,7 @@
 package tasks.model;
 
 import org.apache.log4j.Logger;
-import tasks.services.TaskIO;
+import tasks.repository.TaskRepository;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -38,7 +38,7 @@ public class Task implements Serializable, Cloneable {
         }
         if (interval < 1) {
             log.error("interval < than 1");
-            throw new IllegalArgumentException("interval should me > 1");
+            throw new IllegalArgumentException("interval should be > 1");  //             throw new IllegalArgumentException("interval should me > 1");
         }
         this.title = title;
         this.start = start;
@@ -92,7 +92,7 @@ public class Task implements Serializable, Cloneable {
 
     }
     public boolean isRepeated(){
-        return !(this.interval == 0);
+        return this.interval != 0;
 
     }
     public Date nextTimeAfter(Date current){
@@ -127,12 +127,12 @@ public class Task implements Serializable, Cloneable {
     }
     public String getFormattedRepeated(){
         if (isRepeated()){
-            String formattedInterval = TaskIO.getFormattedInterval(interval);
+            String formattedInterval = TaskRepository.getFormattedInterval(interval);
             return "Every " + formattedInterval;
         }
-        else {
-            return "No";
-        }
+        //else {
+        return "No";
+        //}
     }
     @Override
     public boolean equals(Object o) {
