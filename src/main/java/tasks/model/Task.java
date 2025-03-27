@@ -18,6 +18,9 @@ public class Task implements Serializable, Cloneable {
     private static final Logger log = Logger.getLogger(Task.class.getName());
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
+    public Task() {
+    }
+
     public static SimpleDateFormat getDateFormat(){
         return sdf;
     }
