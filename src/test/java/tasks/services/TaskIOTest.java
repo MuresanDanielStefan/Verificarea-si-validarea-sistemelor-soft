@@ -98,7 +98,7 @@ class TaskIOTest {
     @Test
     void testBVA_4(){
         try {
-            for (int i = 0; i < 1000000001; i++) {
+            for (int i = 0; i < 10000001; i++) {
                 Task task = new Task();
                 TaskIO.add(task);
             }

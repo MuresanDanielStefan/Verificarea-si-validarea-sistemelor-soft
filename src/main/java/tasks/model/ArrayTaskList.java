@@ -49,6 +49,10 @@ public class ArrayTaskList extends TaskList{
         return new ArrayTaskListIterator();
     }
 
+    /**
+     *
+     * @param task
+     */
     @Override
     public void add(Task task){
         if (task.equals(null)) throw new NullPointerException("Task shouldn't be null");
