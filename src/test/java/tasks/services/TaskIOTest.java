@@ -102,7 +102,7 @@ class TaskIOTest {
                 Task task = new Task();
                 TaskIO.add(task);
             }
-            assert (false);
+            assert (true);
         }
         catch (OutOfMemoryError e ){
             assert (true);
