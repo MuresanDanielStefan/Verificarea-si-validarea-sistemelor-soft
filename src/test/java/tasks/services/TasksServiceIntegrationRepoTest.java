@@ -6,45 +6,36 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import tasks.model.ArrayTaskList;
 import tasks.model.Task;
-import tasks.model.TasksOperations;
 
-import java.util.Arrays;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
 
-class TasksOperationsTest {
+class TasksServiceIntegrationRepoTest {
     @Mock
     private ArrayTaskList tasks;
 
     @InjectMocks
     private TasksService service;
 
-    @Mock
-    private TasksOperations tsk;
-
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        tasks = new ArrayTaskList();
+        service = new TasksService(tasks);
     }
 
     @Test
     public void getObservableListTest() {
         Task task1 = getMockTask("Task 1", new Date());
         Task task2 = getMockTask("Task 2", new Date());
-        Mockito.when(tasks.getAll()).thenReturn(Arrays.asList(task1, task2));
+
+        tasks.add(task1);
+        tasks.add(task2);
 
         ObservableList<Task> observableList = service.getObservableList();
-
-        Mockito.verify(tasks, times(1)).getAll();
-
         assert this.tasks.getAll().size() == 2;
-
-        Mockito.verify(tasks, times(2)).getAll();
 
         assertNotNull(observableList);
         assertEquals(2, observableList.size());
@@ -57,9 +48,10 @@ class TasksOperationsTest {
         // String title, Date start, Date end, int interval
         Date now = new Date();
         Task task1 = this.getMockActiveTask("Task 1", now, new Date(now.getTime() + 3600 * 1000), 60);
-        Task task2 = this.getMockActiveTask("Task 2", now, new Date(now.getTime() + 3600 * 1000), 60);
-        tsk.incoming(new Date(now.getTime() + 3600 * 1000),new Date(now.getTime() + 3600 * 1000));
-        Mockito.when(tasks.getAll()).thenReturn(Arrays.asList(task1, task2));
+        Task task2 = this.getMockActiveTask("Task 2", now, new Date(now.getTime() + 3600 * 2 * 1000), 60);
+
+        tasks.add(task1);
+        tasks.add(task2);
 
         Date start = new Date(now.getTime() - 100000);  // 100 secunde
         Date end = new Date(now.getTime() + 100000);    // 100 secunde
@@ -67,13 +59,10 @@ class TasksOperationsTest {
         Mockito.when(task2.nextTimeAfter(start)).thenReturn(end);
 
         Iterable<Task> filteredTasks = service.filterTasks(start, end);
-        Mockito.verify(tasks, times(1)).getAll();
 
         assertNotNull(filteredTasks);
         assertTrue(filteredTasks.iterator().hasNext());
         assertEquals(task1, filteredTasks.iterator().next());
-
-        Mockito.verify(tasks, times(1)).getAll();
     }
 
     private Task getMockTask(String title, Date time) {

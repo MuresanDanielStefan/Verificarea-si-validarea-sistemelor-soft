@@ -7,7 +7,7 @@ public class Task {
     private final Date startDate;
     private final Date endDate;
     private final Integer interval;
-    private final boolean isActive;
+    private boolean isActive;
 
     public Task(String title, Date startDate, Date endDate, Integer interval, boolean isActive) {
         this.title = title;
@@ -36,6 +36,8 @@ public class Task {
     public boolean isActive() {
         return isActive;
     }
+
+    public void setActive(boolean isActive){this.isActive = isActive;}
 
     @Override
     public String toString() {

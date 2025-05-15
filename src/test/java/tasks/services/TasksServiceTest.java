@@ -9,23 +9,19 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import tasks.model.ArrayTaskList;
 import tasks.model.Task;
-import tasks.model.TasksOperations;
 
 import java.util.Arrays;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.*;
 
-class TasksOperationsTest {
+class TasksServiceTest {
     @Mock
     private ArrayTaskList tasks;
 
     @InjectMocks
     private TasksService service;
-
-    @Mock
-    private TasksOperations tsk;
 
     @BeforeEach
     public void setUp() {
@@ -57,8 +53,8 @@ class TasksOperationsTest {
         // String title, Date start, Date end, int interval
         Date now = new Date();
         Task task1 = this.getMockActiveTask("Task 1", now, new Date(now.getTime() + 3600 * 1000), 60);
-        Task task2 = this.getMockActiveTask("Task 2", now, new Date(now.getTime() + 3600 * 1000), 60);
-        tsk.incoming(new Date(now.getTime() + 3600 * 1000),new Date(now.getTime() + 3600 * 1000));
+        Task task2 = this.getMockActiveTask("Task 2", now, new Date(now.getTime() + 3600 * 2 * 1000), 60);
+
         Mockito.when(tasks.getAll()).thenReturn(Arrays.asList(task1, task2));
 
         Date start = new Date(now.getTime() - 100000);  // 100 secunde
